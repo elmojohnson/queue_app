@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession, signIn } from "next-auth/react";
 
@@ -7,7 +7,7 @@ import { FaSpotify } from "react-icons/fa";
 
 const Login = () => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const loginUser = () => {
     signIn("spotify", { redirect: "/" });
@@ -15,7 +15,6 @@ const Login = () => {
 
   useEffect(() => {
     if (session) {
-      console.log(status);
       router.push("/");
     }
   }, [session]);

@@ -12,15 +12,24 @@ import Layout from "../../layouts/Layout";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useSession } from "next-auth/react";
 
 const Create = () => {
   const toast = useToast();
+  const {data: session} = useSession();
 
   const ValidationSchema = Yup.object().shape({
     name: Yup.string()
       .min(2, "Name is too short")
       .required("Name is required to create a room."),
   });
+
+  const createRoom = (name) => {
+    console.log({
+      host :session?.user,
+      name
+    })
+  }
 
   return (
     <Layout>
@@ -32,7 +41,7 @@ const Create = () => {
           }}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
-              console.log(values);
+              createRoom(values.name)
               setSubmitting(false);
               toast({
                 title: "Account Created!",
