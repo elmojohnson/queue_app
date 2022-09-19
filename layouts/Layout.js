@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
   return (
     <Flex w="full" flexDir="column">
       <Navbar />
-      <Container maxW="container.xl" py={3}>
+      <Container maxW="container.sm">
         {children}
       </Container>
     </Flex>

@@ -1,13 +1,39 @@
-import { Box, Container, HStack, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Container,
+  HStack,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spacer,
+  Text,
+} from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
+  const router = useRouter();
+
   return (
     <Box bg="teal" py={4} shadow="md">
-      <Container maxW="container.xl" color="white">
+      <Container maxW="container.sm" color="white">
         <HStack>
-          <Text fontSize={20} fontWeight="bold">
-            App Title
+          <Text fontSize={20} fontWeight="bold" _hover={{cursor: "pointer"}} onClick={() => router.push("/")}>
+            Queue App
           </Text>
+          <Spacer />
+          <Box>
+            <Menu direction="ltr">
+              <MenuButton>
+                <Avatar size="sm" bg="teal.400" />
+              </MenuButton>
+              <MenuList color="black">
+                <MenuItem onClick={() => router.push("/account")}>Account</MenuItem>
+                <MenuItem>Logout</MenuItem>
+              </MenuList>
+            </Menu>
+          </Box>
         </HStack>
       </Container>
     </Box>
