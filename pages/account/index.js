@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout'
 
 const Account = () => {
   return (
-    <Layout title="Account">Account</Layout>
+    <Layout>Account</Layout>
   )
 }
 

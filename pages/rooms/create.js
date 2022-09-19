@@ -17,7 +17,7 @@ const Create = () => {
       .required("Name is required to create a room."),
   });
   return (
-    <Layout title="Create">
+    <Layout>
       <Stack spacing={4}>
         <Formik
           validationSchema={ValidationSchema}
@@ -55,8 +55,8 @@ const Create = () => {
                 ) : null}
               </FormControl>
               <Button
-              w="fit-content"
-              alignSelf="end"
+                w="fit-content"
+                alignSelf="end"
                 colorScheme="green"
                 type="submit"
                 onClick={handleSubmit}
