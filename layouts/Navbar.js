@@ -16,7 +16,7 @@ const Navbar = () => {
   const router = useRouter();
 
   return (
-    <Box bg="teal" py={4} shadow="md">
+    <Box bg="teal" py={4} position="sticky" top={0} zIndex={50} shadow="md">
       <Container maxW="container.sm" color="white">
         <HStack>
           <Text fontSize={20} fontWeight="bold" _hover={{cursor: "pointer"}} onClick={() => router.push("/")}>

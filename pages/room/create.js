@@ -5,20 +5,26 @@ import {
   FormLabel,
   Input,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
-import { Formik } from "formik";
-import * as Yup from "yup";
+
 import Layout from "../../layouts/Layout";
 
+import { Formik } from "formik";
+import * as Yup from "yup";
+
 const Create = () => {
+  const toast = useToast();
+
   const ValidationSchema = Yup.object().shape({
     name: Yup.string()
       .min(2, "Name is too short")
       .required("Name is required to create a room."),
   });
+
   return (
     <Layout>
-      <Stack spacing={4}>
+      <Stack spacing={4} py={3}>
         <Formik
           validationSchema={ValidationSchema}
           initialValues={{
@@ -28,6 +34,11 @@ const Create = () => {
             setTimeout(() => {
               console.log(values);
               setSubmitting(false);
+              toast({
+                title: "Account Created!",
+                status: "success",
+                isClosable: true
+              })
             }, 2000);
           }}
         >
