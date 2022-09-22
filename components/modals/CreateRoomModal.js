@@ -24,7 +24,9 @@ import * as Yup from "yup";
 
 // Hooks
 import { useCreateRoom } from "../../hooks/room/useCreateRoom";
+import { useCredentials } from "../../hooks/user/useCredentials";
 
+// FUNC
 const CreateRoomModal = ({ isOpen, onClose }) => {
   const toast = useToast();
   const { data: session } = useSession();
@@ -37,11 +39,18 @@ const CreateRoomModal = ({ isOpen, onClose }) => {
   });
 
   // Create room
-  const createRoom = (name) => {
-    const response = useCreateRoom(name, session?.user);
-
-    response
-      .then((res) => toast(res))
+  const createRoom = async (name) => {
+    const credentials = await useCredentials();
+    const newRoom = useCreateRoom(
+      name,
+      session?.user,
+      credentials.providerAccountId
+    );
+    newRoom
+      .then((res) => {
+        toast(res);
+        onClose();
+      })
       .catch((err) => {
         console.log(err);
         toast({

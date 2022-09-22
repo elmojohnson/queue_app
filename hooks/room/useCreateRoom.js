@@ -2,7 +2,7 @@
 import { db } from "../../utils/firebase";
 import { doc, addDoc, setDoc, Timestamp, collection } from "firebase/firestore";
 
-export const useCreateRoom = async (name, user) => {
+export const useCreateRoom = async (name, user, userId) => {
     let response = {};
   try {
     const roomRef = doc(collection(db, "rooms"));
@@ -11,15 +11,17 @@ export const useCreateRoom = async (name, user) => {
     await setDoc(roomRef, {
       name,
       host: {
+        id: userId,
         name: user.name,
         email: user.email,
         image: user.image,
       },
-      members: [user.email],
+      members: [userId],
       created_at: Timestamp.now(),
     });
 
     await addDoc(memberRef, {
+      id: userId,
       name: user.name,
       email: user.email,
       image: user.image,
@@ -28,7 +30,7 @@ export const useCreateRoom = async (name, user) => {
     });
 
     response = {
-      title: "Account Created!",
+      title: "Room Created!",
       status: "success",
       isClosable: true,
     };

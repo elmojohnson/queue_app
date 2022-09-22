@@ -1,44 +1,25 @@
 import { useState } from "react";
+import { db } from "../../utils/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { useCredentials } from "../user/useCredentials";
 
-export const useRooms = () => {
-    const [rooms, setRooms] = useState([
-        {
-          name: "Room 1",
-          host: "Host 1",
-        },
-        {
-          name: "Room 2",
-          host: "Host 2",
-        },
-        {
-          name: "Room 3",
-          host: "Host 3",
-        },
-        {
-          name: "Room 4",
-          host: "Host 4",
-        },
-        {
-          name: "Room 5",
-          host: "Host 5",
-        },
-        {
-          name: "Room 5",
-          host: "Host 5",
-        },
-        {
-          name: "Room 5",
-          host: "Host 5",
-        },
-        {
-          name: "Room 5",
-          host: "Host 5",
-        },
-        {
-          name: "Room 5",
-          host: "Host 5",
-        },
-      ]);
+export const useRooms = async () => {
+  let rooms;
+  const credentials = await useCredentials();
 
-    return rooms;
-}
+  const roomQuery = query(
+    collection(db, "rooms"),
+    where("members", "array-contains", credentials.providerAccountId)
+  );
+  const roomSnapshot = await getDocs(roomQuery);
+
+  let arr = [];
+
+  roomSnapshot.forEach((doc) => {
+    arr.push({ id: doc.id, ...doc.data() });
+  });
+
+  rooms = arr;
+
+  return rooms;
+};

@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
+
 // Hooks
-import { useRouter } from "next/router";
 import { useRooms } from "../hooks/room/useRooms";
 
 // Component & Layout
-import RoomItem from "../components/RoomItem";
+import RoomItem from "../components/items/RoomItem";
+import CreateRoomModal from "../components/modals/CreateRoomModal";
 import Layout from "../layouts/Layout";
 
 // UI Components
@@ -18,11 +20,29 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { MdAdd } from "react-icons/md";
-import CreateRoomModal from "../components/modals/CreateRoomModal";
+import LoadingScreen from "../components/utils/LoadingScreen";
 
 const Home = () => {
-  const rooms = useRooms();
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [rooms, setRooms] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const getRoom = async () => {
+    setLoading(true);
+    const result = await useRooms();
+
+    try {
+      setRooms(result);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getRoom();
+  }, []);
 
   return (
     <Layout>
@@ -40,11 +60,15 @@ const Home = () => {
             Create
           </Button>
         </HStack>
-        <VStack spacing={4} align="stretch">
-          {rooms.map((room, i) => {
-            return <RoomItem key={i} name={room.name} host={room.host} />;
-          })}
-        </VStack>
+        {isLoading ? (
+          <LoadingScreen />
+        ) : (
+          <VStack spacing={4} align="stretch">
+            {rooms.map(room => {
+              return <RoomItem key={room.id} id={room.id} name={room.name} host={room.host} />;
+            })}
+          </VStack>
+        )}
       </Flex>
 
       <CreateRoomModal isOpen={isOpen} onClose={onClose} />

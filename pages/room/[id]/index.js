@@ -21,7 +21,7 @@ const Room = () => {
   const router = useRouter();
   return (
     <Layout>
-      <Box>
+      <Box py={3}>
         <Flex>
           <Text fontWeight="bold" fontSize={20}>
             Room Name
