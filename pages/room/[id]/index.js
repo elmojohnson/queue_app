@@ -1,43 +1,51 @@
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Icon,
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Spacer,
-  Text,
-} from "@chakra-ui/react";
-import { HiDotsVertical } from "react-icons/hi";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import React from "react";
+
+// UI Components
+import { Box } from "@chakra-ui/react";
+
+// Layouts and Components
+import LoadingScreen from "../../../components/utils/LoadingScreen";
 import Layout from "../../../layouts/Layout";
+
+// Custom hooks
+import { useViewRoom } from "../../../hooks/room/useViewRoom";
+import ViewRoomNav from "../../../components/navigation/ViewRoomNav";
 
 const Room = () => {
   const router = useRouter();
+  const [name, setName] = useState("");
+  const [isLoading, setLoading] = useState(false);
+
+  const getRoom = async () => {
+    setLoading(true);
+    try {
+      const room = await useViewRoom(router.query.id);
+      setName(room.name);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    router.isReady && getRoom();
+  }, [router]);
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <LoadingScreen />
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
-      <Box py={3}>
-        <Flex>
-          <Text fontWeight="bold" fontSize={20}>
-            Room Name
-          </Text>
-          <Spacer />
-          <Menu>
-            <MenuButton as={IconButton} icon={<Icon as={HiDotsVertical} />}>
-              Settings
-            </MenuButton>
-            <MenuList>
-              <MenuItem>Members</MenuItem>
-              <MenuItem>Info</MenuItem>
-            </MenuList>
-          </Menu>
-        </Flex>
-      </Box>
+      <ViewRoomNav name={name} />
+
+      <Box>asd</Box>
     </Layout>
   );
 };
