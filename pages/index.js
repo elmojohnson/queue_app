@@ -15,12 +15,14 @@ import {
   Spacer,
   Heading,
   Icon,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { MdAdd } from "react-icons/md";
+import CreateRoomModal from "../components/modals/CreateRoomModal";
 
 const Home = () => {
-  const router = useRouter();
   const rooms = useRooms();
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
     <Layout>
@@ -33,7 +35,7 @@ const Home = () => {
             alignSelf="end"
             leftIcon={<Icon as={MdAdd} />}
             colorScheme="green"
-            onClick={() => router.push("/room/create")}
+            onClick={onOpen}
           >
             Create
           </Button>
@@ -44,6 +46,8 @@ const Home = () => {
           })}
         </VStack>
       </Flex>
+
+      <CreateRoomModal isOpen={isOpen} onClose={onClose} />
     </Layout>
   );
 };
