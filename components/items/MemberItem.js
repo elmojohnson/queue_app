@@ -11,6 +11,7 @@ import {
 import { MdPersonRemove } from "react-icons/md";
 
 const MemberItem = ({ user }) => {
+  // user.member_id - firestore doc id
   return (
     <Box w="full">
       <HStack alignItems="start">

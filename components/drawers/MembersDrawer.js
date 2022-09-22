@@ -20,42 +20,16 @@ import {
 import AddMemberModal from "../modals/AddMemberModal";
 import LoadingScreen from "../utils/LoadingScreen";
 import MemberItem from "../items/MemberItem";
+import useMembers from "../../hooks/member/useMembers";
 
 const MembersDrawer = ({ isOpen, onClose, btnRef }) => {
-  const [members, setMembers] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const {members, isLoading} = useMembers();
 
-  const router = useRouter();
   const {
     isOpen: modalIsOpen,
     onOpen: modalOnOpen,
     onClose: modalOnClose,
   } = useDisclosure();
-
-  const getMembers = async () => {
-    const memQuery = query(
-      collection(db, "rooms", router?.query.id, "members")
-    );
-
-    onSnapshot(memQuery, (qs) => {
-      let arr = [];
-
-      qs.forEach((doc) => {
-        arr.push({
-          member_id: doc.id,
-          spotify_id: doc.data().id,
-          ...doc.data(),
-        });
-      });
-
-      console.log(arr);
-      setMembers(arr);
-    });
-  };
-
-  useEffect(() => {
-    router.isReady && getMembers();
-  }, []);
 
   return (
     <>
@@ -77,7 +51,7 @@ const MembersDrawer = ({ isOpen, onClose, btnRef }) => {
             ) : (
               <VStack spacing={4}>
                 {members.map((member) => {
-                  return <MemberItem user={member} />;
+                  return <MemberItem key={member.member_id} user={member} />;
                 })}
               </VStack>
             )}
