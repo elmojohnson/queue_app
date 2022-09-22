@@ -1,18 +1,13 @@
 import { useEffect } from "react";
-import { useCredentials } from "../../hooks/user/useCredentials";
 import Layout from "../../layouts/Layout";
+import {useSession} from "next-auth/react"
 
 const Account = () => {
-
-  const getCred = async () => {
-    const credentials = await useCredentials();
-    
-    console.log(credentials)
-  };
+  const {data: session} = useSession();
 
   useEffect(() => {
-    getCred();
-  }, []);
+    console.log(session)
+  }, [session]);
 
   return <Layout>Account</Layout>;
 };

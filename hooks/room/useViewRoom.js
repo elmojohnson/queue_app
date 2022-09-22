@@ -4,8 +4,7 @@ import { useCredentials } from "../user/useCredentials";
 
 export const useViewRoom = async (id) =>{
     let room;
-    const credentials = await useCredentials();
-
+    
     const roomRef = doc(db, "rooms", id);
     const docSnap = await getDoc(roomRef);
 
