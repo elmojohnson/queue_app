@@ -27,11 +27,15 @@ const UserResultItem = ({ user }) => {
   };
 
   const addUser = async () => {
+    setAdding(true);
     try {
-      const { roomId, user: us } = await useAddMember(router?.query?.id, user);
-      console.log(us);
+      const isAdded = await useAddMember(router?.query?.id, user);
+      console.log(isAdded);
+      setJoined(isAdded)
     } catch (error) {
       console.error(error);
+    } finally {
+      setAdding(false);
     }
   };
 
@@ -57,6 +61,7 @@ const UserResultItem = ({ user }) => {
               size="sm"
               leftIcon={<Icon as={MdPersonAdd} />}
               variant="outline"
+              onClick={addUser}
             >
               Add
             </Button>
