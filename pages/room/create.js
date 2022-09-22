@@ -1,3 +1,4 @@
+// Chakra UI
 import {
   Button,
   FormControl,
@@ -8,15 +9,30 @@ import {
   useToast,
 } from "@chakra-ui/react";
 
+// Layout
 import Layout from "../../layouts/Layout";
 
+// Formik
 import { Formik } from "formik";
 import * as Yup from "yup";
+
+// NextAuth
 import { useSession } from "next-auth/react";
+
+// Firebase
+import { db } from "../../utils/firebase";
+import {
+  doc,
+  addDoc,
+  setDoc,
+  Timestamp,
+  collection,
+} from "firebase/firestore";
+import { useEffect } from "react";
 
 const Create = () => {
   const toast = useToast();
-  const {data: session} = useSession();
+  const { data: session } = useSession();
 
   const ValidationSchema = Yup.object().shape({
     name: Yup.string()
@@ -24,12 +40,54 @@ const Create = () => {
       .required("Name is required to create a room."),
   });
 
-  const createRoom = (name) => {
-    console.log({
-      host :session?.user,
-      name
-    })
-  }
+  const createRoom = async (name) => {
+    try {
+      const roomRef = doc(collection(db, "rooms"));
+      const memberRef = collection(roomRef, "members");
+
+      await setDoc(roomRef, {
+        name,
+        host: {
+          id: session?.user?.id,
+          name: session?.user?.name,
+          email: session?.user?.email,
+          image: session?.user?.image,
+        },
+        members: [session?.user?.id],
+        created_at: Timestamp.now(),
+      });
+
+      await addDoc(memberRef, {
+        id: session?.user?.id,
+        name: session?.user?.name,
+        email: session?.user?.email,
+        image: session?.user?.image,
+        isHost: true,
+        joined_at: Timestamp.now(),
+      });
+
+      setTimeout(() => {
+        toast({
+          title: "Account Created!",
+          status: "success",
+          isClosable: true,
+        });
+      }, 1000);
+
+      router.push("/rooms");
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: "There was a problem creating the room. Try again!",
+        status: "error",
+        isClosable: true,
+      });
+    }
+  };
+
+  useEffect(() => {
+    console.log(session)
+  }, [])
 
   return (
     <Layout>
@@ -40,15 +98,8 @@ const Create = () => {
             name: "",
           }}
           onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              createRoom(values.name)
-              setSubmitting(false);
-              toast({
-                title: "Account Created!",
-                status: "success",
-                isClosable: true
-              })
-            }, 2000);
+            createRoom(values.name);
+            setSubmitting(false);
           }}
         >
           {({
