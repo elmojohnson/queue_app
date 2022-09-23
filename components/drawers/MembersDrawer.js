@@ -51,7 +51,7 @@ const MembersDrawer = ({ isOpen, onClose, btnRef }) => {
             ) : (
               <VStack spacing={4}>
                 {members.map((member) => {
-                  return <MemberItem key={member.member_id} user={member} />;
+                  return <MemberItem key={member.id} user={member} />;
                 })}
               </VStack>
             )}

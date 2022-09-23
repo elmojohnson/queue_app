@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
-
 // Hooks
-import { useRooms } from "../hooks/room/useRooms";
+import useRooms from "../hooks/room/useRooms";
 
 // Component & Layout
 import RoomItem from "../components/items/RoomItem";
@@ -23,26 +21,8 @@ import { MdAdd } from "react-icons/md";
 import LoadingScreen from "../components/utils/LoadingScreen";
 
 const Home = () => {
-  const [rooms, setRooms] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const {rooms, isLoading} = useRooms();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const getRoom = async () => {
-    setLoading(true);
-    const result = await useRooms();
-
-    try {
-      setRooms(result);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getRoom();
-  }, []);
 
   return (
     <Layout>

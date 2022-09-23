@@ -5,32 +5,45 @@ import {
   arrayUnion,
   collection,
   addDoc,
-  Timestamp
+  Timestamp,
 } from "firebase/firestore";
+import { useState } from "react";
+import {useRouter} from "next/router";
 
-export const useAddMember = async (roomId, user) => {
-  let isAdded = false;
+const useAddMember = (user) => {
+  const router = useRouter();
+  const [isAdded, setAdded] = useState(false);
+  const [isAdding, setAdding] = useState(false);
 
-  const roomRef = doc(db, "rooms", roomId);
-  // collection(db, "rooms", router.query.id, "members")
+  const addUser = async () => {
+    setAdding(true);
+    try {
+      const roomRef = doc(db, "rooms", router?.query?.id);
 
-  // Update array
-  await updateDoc(roomRef, {
-    members: arrayUnion(user.spotifyId),
-  });
+      // Update array
+      await updateDoc(roomRef, {
+        members: arrayUnion(user.spotifyId),
+      });
 
-  // Add to members subcollection
-  const memRef = collection(roomRef, "members");
-  addDoc(memRef, {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    image: user.image,
-    isHost: false,
-    joined_at: Timestamp.now(),
-  });
+      // Add to members subcollection
+      const memRef = collection(roomRef, "members");
+      addDoc(memRef, {
+        spotifyId: user.spotifyId,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+        isHost: false,
+        joined_at: Timestamp.now(),
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setAdded(true);
+      setAdding(false);
+    }
+  };
 
-  isAdded = true;
-
-  return isAdded;
+  return { addUser, isAdded, isAdding };
 };
+
+export default useAddMember;

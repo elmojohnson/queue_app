@@ -21,8 +21,7 @@ const useMembers = () => {
 
       qs.forEach((doc) => {
         arr.push({
-          member_id: doc.id,
-          spotify_id: doc.data().id,
+          id: doc.id,
           ...doc.data(),
         });
       });

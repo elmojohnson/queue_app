@@ -13,10 +13,12 @@ import { MdPersonRemove } from "react-icons/md";
 
 import RoomContext from "../../contexts/RoomContext";
 import { useSession } from "next-auth/react";
+import useRemoveMember from "../../hooks/member/useRemoveMember";
 
 const MemberItem = ({ user }) => {
   const roomContext = useContext(RoomContext);
   const { data: session } = useSession();
+  const {deleteUser, isLoading} = useRemoveMember(user);
   // user.member_id - firestore doc id
   return (
     <Box w="full">
@@ -34,6 +36,10 @@ const MemberItem = ({ user }) => {
             size="xs"
             leftIcon={<Icon as={MdPersonRemove} />}
             variant="outline"
+            onClick={deleteUser}
+            loadingText="Removing"
+            isLoading={isLoading}
+            disabled={isLoading}
           >
             Remove
           </Button>

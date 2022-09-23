@@ -1,4 +1,5 @@
-import { useRouter } from "next/router";
+import useCheckMember from "../../hooks/member/useCheckMember";
+import useAddMember from "../../hooks/member/useAddMember";
 
 import {
   Avatar,
@@ -11,37 +12,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { MdPersonAdd, MdCheck } from "react-icons/md";
-import { useAddMember } from "../../hooks/member/useAddMember";
-import { useEffect, useState } from "react";
-import { useCheckMember } from "../../hooks/member/useCheckMember";
 
 const UserResultItem = ({ user }) => {
-  const router = useRouter();
-  const [isJoined, setJoined] = useState(false);
-  const [isAdding, setAdding] = useState(false);
-
-  const checkUserMembership = async () => {
-    const isMember = await useCheckMember(user.spotifyId, router?.query?.id);
-    setJoined(isMember);
-    console.log(isMember);
-  };
-
-  const addUser = async () => {
-    setAdding(true);
-    try {
-      const isAdded = await useAddMember(router?.query?.id, user);
-      console.log(isAdded);
-      setJoined(isAdded)
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setAdding(false);
-    }
-  };
-
-  useEffect(() => {
-    checkUserMembership();
-  }, []);
+  const isMember = useCheckMember(user.spotifyId);
+  const {addUser, isAdded, isAdding} = useAddMember(user);
 
   return (
     <VStack spacing={2} alignItems="start">
@@ -56,12 +30,15 @@ const UserResultItem = ({ user }) => {
             <Text fontSize={14}>{user.email}</Text>
           </VStack>
           <Spacer />
-          {!isJoined ? (
+          {!isMember && !isAdded ? (
             <Button
               size="sm"
               leftIcon={<Icon as={MdPersonAdd} />}
               variant="outline"
               onClick={addUser}
+              isLoading={isAdding}
+              disabled={isAdding}
+              loadingText="Adding"
             >
               Add
             </Button>

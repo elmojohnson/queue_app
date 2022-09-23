@@ -1,25 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { db } from "../../utils/firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { useCredentials } from "../user/useCredentials";
 
-export const useRooms = async () => {
-  let rooms;
-  const credentials = await useCredentials();
+const useRooms = () => {
+  const [rooms, setRooms] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
-  const roomQuery = query(
-    collection(db, "rooms"),
-    where("members", "array-contains", credentials.providerAccountId)
-  );
-  const roomSnapshot = await getDocs(roomQuery);
+  const getRooms = async () => {
+    setLoading(true);
+    
+    const credentials = await useCredentials();
+    const roomQuery = query(
+      collection(db, "rooms"),
+      where("members", "array-contains", credentials.providerAccountId)
+    );
 
-  let arr = [];
+    onSnapshot(roomQuery, (qs) => {
+      let arr = [];
 
-  roomSnapshot.forEach((doc) => {
-    arr.push({ id: doc.id, ...doc.data() });
-  });
+      qs.forEach((doc) => {
+        arr.push({ id: doc.id, ...doc.data() });
+      });
 
-  rooms = arr;
+      console.log(arr);
+      setRooms(arr);
+    });
 
-  return rooms;
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getRooms();
+  }, []);
+
+  return { rooms, isLoading };
 };
+
+export default useRooms;

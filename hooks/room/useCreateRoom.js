@@ -20,8 +20,8 @@ export const useCreateRoom = async (name, user, userId) => {
       created_at: Timestamp.now(),
     });
 
-    await addDoc(memberRef, {
-      id: userId,
+    addDoc(memberRef, {
+      spotifyId: userId,
       name: user.name,
       email: user.email,
       image: user.image,
