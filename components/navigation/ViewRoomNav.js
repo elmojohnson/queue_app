@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
+import RoomContext from "../../contexts/RoomContext";
 
 // UI Components
 import {
@@ -20,10 +21,12 @@ import { HiDotsVertical } from "react-icons/hi";
 import { MdArrowBack } from "react-icons/md";
 import MembersDrawer from "../drawers/MembersDrawer";
 
-const ViewRoomNav = ({ name }) => {
+const ViewRoomNav = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
+
+  const roomContext = useContext(RoomContext);
 
   return (
     <>
@@ -36,7 +39,7 @@ const ViewRoomNav = ({ name }) => {
               variant="ghost"
             />
             <Text fontWeight="bold" fontSize={20}>
-              {name}
+              {roomContext.name}
             </Text>
           </HStack>
           <Spacer />

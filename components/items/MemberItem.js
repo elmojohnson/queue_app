@@ -8,9 +8,13 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import { useContext } from "react";
 import { MdPersonRemove } from "react-icons/md";
 
+import RoomContext from "../../contexts/RoomContext";
+
 const MemberItem = ({ user }) => {
+  const roomContext = useContext(RoomContext);
   // user.member_id - firestore doc id
   return (
     <Box w="full">
