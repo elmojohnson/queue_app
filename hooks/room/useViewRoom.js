@@ -37,7 +37,6 @@ const useViewRoom = () => {
         members: data.members,
         created_at: data.created_at,
       });
-      console.log(data)
     } else {
       router.push("/");
     }

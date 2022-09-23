@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-
-import { db } from "../../utils/firebase";
-import { collection, onSnapshot, query } from "firebase/firestore";
+import { useContext } from "react";
+import { useSession } from "next-auth/react";
+import RoomContext from "../../contexts/RoomContext";
+import useMembers from "../../hooks/member/useMembers";
 
 import {
   Drawer,
@@ -20,11 +19,12 @@ import {
 import AddMemberModal from "../modals/AddMemberModal";
 import LoadingScreen from "../utils/LoadingScreen";
 import MemberItem from "../items/MemberItem";
-import useMembers from "../../hooks/member/useMembers";
 
 const MembersDrawer = ({ isOpen, onClose, btnRef }) => {
-  const {members, isLoading} = useMembers();
+  const roomContext = useContext(RoomContext);
+  const { data: session } = useSession();
 
+  const { members, isLoading } = useMembers();
   const {
     isOpen: modalIsOpen,
     onOpen: modalOnOpen,
@@ -58,9 +58,11 @@ const MembersDrawer = ({ isOpen, onClose, btnRef }) => {
           </DrawerBody>
 
           <DrawerFooter>
-            <Button colorScheme="green" onClick={modalOnOpen}>
-              Add
-            </Button>
+            {roomContext.host.email === session?.user?.email && (
+              <Button colorScheme="green" onClick={modalOnOpen}>
+                Add
+              </Button>
+            )}
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
