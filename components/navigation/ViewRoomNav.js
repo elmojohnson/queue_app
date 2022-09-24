@@ -5,6 +5,7 @@ import RoomContext from "../../contexts/RoomContext";
 // UI Components
 import {
   Box,
+  Button,
   Flex,
   HStack,
   Icon,
@@ -18,20 +19,25 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { HiDotsVertical } from "react-icons/hi";
-import { MdArrowBack } from "react-icons/md";
+import { MdArrowBack, MdMusicNote } from "react-icons/md";
+
+// Components
 import MembersDrawer from "../drawers/MembersDrawer";
+import SearchTrackModal from "../modals/SearchTrackModal";
 
 const ViewRoomNav = () => {
-  const router = useRouter();
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = useRef();
-
   const roomContext = useContext(RoomContext);
+  const router = useRouter();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: modalIsOpen, onOpen: modalOnOpen, onClose: modalOnClose } = useDisclosure();
+
+  const btnRef = useRef();
 
   return (
     <>
       <Box py={3} bg="white" borderBottomWidth="1px">
-        <Flex>
+        <Flex alignItems="center">
           <HStack>
             <IconButton
               icon={<Icon as={MdArrowBack} />}
@@ -43,6 +49,14 @@ const ViewRoomNav = () => {
             </Text>
           </HStack>
           <Spacer />
+          <Button
+            size="sm"
+            colorScheme="green"
+            leftIcon={<Icon as={MdMusicNote} />}
+            onClick={modalOnOpen}
+          >
+            Request
+          </Button>
           <Menu>
             <MenuButton
               as={IconButton}
@@ -60,6 +74,7 @@ const ViewRoomNav = () => {
       </Box>
 
       <MembersDrawer isOpen={isOpen} onClose={onClose} btnRef={btnRef} />
+      <SearchTrackModal modalIsOpen={modalIsOpen} modalOnClose={modalOnClose} />
     </>
   );
 };
