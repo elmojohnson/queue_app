@@ -26,7 +26,6 @@ const useMembers = () => {
         });
       });
 
-      console.log(arr);
       setMembers(arr);
     });
 

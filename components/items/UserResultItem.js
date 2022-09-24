@@ -12,6 +12,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { MdPersonAdd, MdCheck } from "react-icons/md";
+import { useEffect, useState } from "react";
 
 const UserResultItem = ({ user }) => {
   const isMember = useCheckMember(user.spotifyId);

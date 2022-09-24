@@ -23,7 +23,6 @@ const useRooms = () => {
         arr.push({ id: doc.id, ...doc.data() });
       });
 
-      console.log(arr);
       setRooms(arr);
     });
 
