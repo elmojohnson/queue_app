@@ -1,13 +1,26 @@
 import { useState } from "react";
+import {useRouter} from "next/router";
 
-const useDeleteTrack = () => {
-    const [isDeleting, setDeleting] = useState(false);
+import { db } from "../../utils/firebase";
+import { doc, deleteDoc } from "firebase/firestore";
 
-    const deleteTrack = () => {
-        
+const useRemoveTrack = (id) => {
+  const router = useRouter();
+  const [isDeleting, setDeleting] = useState(false);
+
+  const removeTrack = async () => {
+    setDeleting(true);
+
+    try {
+      await deleteDoc(doc(db, "rooms", router?.query?.id, "tracks", id));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setDeleting(false);
     }
+  };
 
-    return {isDeleting}
-}
+  return { removeTrack, isDeleting };
+};
 
-export default useDeleteTrack;
+export default useRemoveTrack;

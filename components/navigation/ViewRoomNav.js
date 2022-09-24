@@ -51,7 +51,7 @@ const ViewRoomNav = () => {
           <Spacer />
           <Button
             size="sm"
-            colorScheme="green"
+            colorScheme="purple"
             leftIcon={<Icon as={MdMusicNote} />}
             onClick={modalOnOpen}
           >

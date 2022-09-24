@@ -2,10 +2,10 @@ import { db } from "../../utils/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
 import { useEffect, useState } from "react";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 const useCheckIsHost = (current_user_id) => {
-    const router = useRouter();
+  const router = useRouter();
   const [isHost, setIsHost] = useState(false);
 
   const getHost = async () => {
@@ -13,16 +13,12 @@ const useCheckIsHost = (current_user_id) => {
     const docSnap = await getDoc(roomRef);
 
     if (docSnap.exists()) {
-      
     } else {
-      console.log("Not exist")
+      console.log("Not exist");
     }
   };
 
-  useEffect(() => {
-
-  })
-
+  useEffect(() => {});
 };
 
 export default useCheckIsHost;

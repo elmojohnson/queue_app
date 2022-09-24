@@ -3,6 +3,7 @@ import {
   Box,
   Container,
   HStack,
+  Icon,
   Menu,
   MenuButton,
   MenuItem,
@@ -11,6 +12,7 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
+import { MdOutlineQueueMusic } from "react-icons/md";
 
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -34,22 +36,23 @@ const Navbar = () => {
 
   return (
     <>
-      <Box bg="teal" py={4} position="sticky" top={0} zIndex={50} shadow="md">
-        <Container maxW="container.sm" color="white">
+      <Box bg="white" py={4} position="sticky" top={0} zIndex={50} shadow="md">
+        <Container maxW="container.sm" color="purple.500">
           <HStack>
+            <Icon fontSize={30} as={MdOutlineQueueMusic} />
             <Text
               fontSize={20}
               fontWeight="bold"
               _hover={{ cursor: "pointer" }}
               onClick={() => router.push("/")}
             >
-              Queue App
+              Queuellab
             </Text>
             <Spacer />
             <Box>
               <Menu direction="ltr">
                 <MenuButton>
-                  <Avatar size="sm" bg="teal.400" />
+                  <Avatar size="sm" bg="purple.500" />
                 </MenuButton>
                 <MenuList color="black">
                   <MenuItem onClick={() => router.push("/account")}>
@@ -62,7 +65,9 @@ const Navbar = () => {
           </HStack>
         </Container>
       </Box>
-      {isLoading && <Progress size="xs" isIndeterminate colorScheme="blackAlpha" />}
+      {isLoading && (
+        <Progress size="xs" isIndeterminate colorScheme="blackAlpha" />
+      )}
     </>
   );
 };
