@@ -6,7 +6,7 @@ const LoadingScreen = () => {
     <Flex
       direction="column"
       alignItems="center"
-      h="70vh"
+      h="60vh"
       justifyContent="center"
     >
       <Spinner size="lg" />

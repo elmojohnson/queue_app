@@ -23,7 +23,6 @@ import MemberItem from "../items/MemberItem";
 const MembersDrawer = ({ isOpen, onClose, btnRef }) => {
   const roomContext = useContext(RoomContext);
   const { data: session } = useSession();
-
   const { members, isLoading } = useMembers();
   const {
     isOpen: modalIsOpen,

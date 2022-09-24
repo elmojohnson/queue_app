@@ -24,12 +24,13 @@ import * as Yup from "yup";
 
 // Hooks
 import { useCreateRoom } from "../../hooks/room/useCreateRoom";
-import { useCredentials } from "../../hooks/user/useCredentials";
+import useCredentials from "../../hooks/user/useCredentials";
 
 // FUNC
 const CreateRoomModal = ({ isOpen, onClose }) => {
   const toast = useToast();
   const { data: session } = useSession();
+  const {providerId} = useCredentials();
 
   // Form validation
   const ValidationSchema = Yup.object().shape({
@@ -39,12 +40,11 @@ const CreateRoomModal = ({ isOpen, onClose }) => {
   });
 
   // Create room
-  const createRoom = async (name) => {
-    const credentials = await useCredentials();
+  const createRoom = (name) => {
     const newRoom = useCreateRoom(
       name,
       session?.user,
-      credentials.providerAccountId
+      providerId
     );
     newRoom
       .then((res) => {

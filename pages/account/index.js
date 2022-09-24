@@ -3,11 +3,11 @@ import Layout from "../../layouts/Layout";
 import useCredentials from "../../hooks/user/useCredentials";
 
 const Account = () => {
-  const { accessToken } = useCredentials();
+  const { refreshToken } = useCredentials();
 
   useEffect(() => {
-    console.log(accessToken);
-  }, [accessToken]);
+    console.log(refreshToken);
+  }, [refreshToken]);
 
   return <Layout>Account</Layout>;
 };
