@@ -1,36 +1,56 @@
 import { db } from "../../utils/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import {getSession} from "next-auth/react"
+import { getSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
-export const useCredentials = async () => {
-  const session = await getSession()
+const useCredentials = () => {
+  const [accessToken, setAccessToken] = useState("");
+  const [refreshToken, setRefreshToken] = useState("");
+  const [providerId, setProviderId] = useState("");
 
-  let response;
-  let user;
+  const getCredentials = async () => {
+    const session = await getSession();
 
-  // Query User
-  const userQuery = query(collection(db, "users"), where("email", "==", session.user.email));
-  const userSnapshot = await getDocs(userQuery);
+    let response;
+    let user;
 
-  userSnapshot.forEach((doc) => {
-    user = { id: doc.id, ...doc.data() };
-  });
+    // Query User
+    const userQuery = query(
+      collection(db, "users"),
+      where("email", "==", session.user.email)
+    );
+    const userSnapshot = await getDocs(userQuery);
 
-  // Query Account
-  const accountQuery = query(
-    collection(db, "accounts"),
-    where("userId", "==", user.id)
-  );
-  const accountSnapshot = await getDocs(accountQuery);
+    userSnapshot.forEach((doc) => {
+      user = { id: doc.id, ...doc.data() };
+    });
 
-  accountSnapshot.forEach((doc) => {
-    response = { id: doc.id, ...doc.data() };
-  });
+    // Query Account
+    const accountQuery = query(
+      collection(db, "accounts"),
+      where("userId", "==", user.id)
+    );
+    const accountSnapshot = await getDocs(accountQuery);
+
+    accountSnapshot.forEach((doc) => {
+      response = { id: doc.id, ...doc.data() };
+    });
+
+    setAccessToken(response.access_token);
+    setRefreshToken(response.refresh_token);
+    setProviderId(response.providerAccountId);
+  };
+
+  useEffect(() => {
+    getCredentials();
+  }, [])
 
   // Object response:
   // access_token
   // providerAccountId
   // refresh_token
 
-  return response;
+  return { accessToken, refreshToken, providerId };
 };
+
+export default useCredentials;

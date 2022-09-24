@@ -26,7 +26,7 @@ const MemberItem = ({ user }) => {
         <Avatar src={user.image} name={user.name} />
         <VStack alignItems="start" spacing={0}>
           <Text fontSize={14} fontWeight="semibold">
-            {`${user.name} ${user.id === roomContext.host.id ? "(Host)" : ""}`}
+            {`${user.name} ${user.spotifyId === roomContext.host.id ? "(Host)" : ""}`}
           </Text>
           <Text fontSize={10}>{user.email}</Text>
         </VStack>

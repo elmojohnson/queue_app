@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import Layout from "../../layouts/Layout";
-import {useSession} from "next-auth/react"
+import useCredentials from "../../hooks/user/useCredentials";
 
 const Account = () => {
-  const {data: session} = useSession();
+  const { accessToken } = useCredentials();
 
   useEffect(() => {
-    console.log(session)
-  }, [session]);
+    console.log(accessToken);
+  }, [accessToken]);
 
   return <Layout>Account</Layout>;
 };
