@@ -33,6 +33,7 @@ export const authOptions = {
     storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_SENDER_ID,
   }),
+  secret: process.env.NEXT_PUBLIC_AUTH_SECRET
 };
 
 export default NextAuth(authOptions);
