@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { signOut, useSession } from "next-auth/react";
+
 import {
   Avatar,
   Box,
@@ -12,15 +16,15 @@ import {
   Spacer,
   Text,
 } from "@chakra-ui/react";
-import { MdOutlineQueueMusic } from "react-icons/md";
-
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { MdOutlineQueueMusic, MdLogout } from "react-icons/md";
+import { HiExternalLink } from "react-icons/hi";
+import useShowSpotifyAccount from "../hooks/user/useShowSpotifyAccount";
 
 const Navbar = () => {
-  const [isLoading, setLoading] = useState(true);
   const router = useRouter();
+  const [isLoading, setLoading] = useState(true);
+  const { data: session } = useSession();
+  const showProfile = useShowSpotifyAccount();
 
   const logoutUser = async () => {
     const data = await signOut({
@@ -52,13 +56,23 @@ const Navbar = () => {
             <Box>
               <Menu direction="ltr">
                 <MenuButton>
-                  <Avatar size="sm" bg="purple.500" />
+                  <Avatar
+                    size="sm"
+                    bg="purple.500"
+                    src={session?.user?.image}
+                    name={session?.user?.name}
+                  />
                 </MenuButton>
                 <MenuList color="black">
-                  <MenuItem onClick={() => router.push("/account")}>
+                  <MenuItem
+                    icon={<Icon as={HiExternalLink} />}
+                    onClick={showProfile}
+                  >
                     Account
                   </MenuItem>
-                  <MenuItem onClick={logoutUser}>Logout</MenuItem>
+                  <MenuItem icon={<Icon as={MdLogout} />} onClick={logoutUser}>
+                    Logout
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </Box>

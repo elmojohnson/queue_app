@@ -6,7 +6,7 @@ import useCredentials from "../user/useCredentials";
 const useRooms = () => {
   const [rooms, setRooms] = useState([]);
   const [isLoading, setLoading] = useState(false);
-  const {providerId} = useCredentials();
+  const { providerId } = useCredentials();
 
   const getRooms = async () => {
     setLoading(true);

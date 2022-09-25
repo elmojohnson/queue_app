@@ -21,7 +21,7 @@ import { MdAdd } from "react-icons/md";
 import LoadingScreen from "../components/utils/LoadingScreen";
 
 const Home = () => {
-  const {rooms, isLoading} = useRooms();
+  const { rooms, isLoading } = useRooms();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -44,8 +44,15 @@ const Home = () => {
           <LoadingScreen />
         ) : (
           <VStack spacing={4} align="stretch">
-            {rooms.map(room => {
-              return <RoomItem key={room.id} id={room.id} name={room.name} host={room.host} />;
+            {rooms.map((room) => {
+              return (
+                <RoomItem
+                  key={room.id}
+                  id={room.id}
+                  name={room.name}
+                  host={room.host}
+                />
+              );
             })}
           </VStack>
         )}
