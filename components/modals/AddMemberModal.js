@@ -39,10 +39,9 @@ const AddMemberModal = ({ isOpen, onClose }) => {
   });
 
   // Create room
-  const searchUser = async (name) => {
+  const SearchUser = async (name) => {
+    const { user, account, isFound: isUserFound } = await useSearchUser(name);
     try {
-      const { user, account, isFound: isUserFound } = await useSearchUser(name);
-
       if (isUserFound) {
         setFound(true);
         const result = {
@@ -76,7 +75,7 @@ const AddMemberModal = ({ isOpen, onClose }) => {
           name: "",
         }}
         onSubmit={(values, { setSubmitting }) => {
-          searchUser(values.name);
+          SearchUser(values.name);
           setSubmitting(false);
         }}
       >
