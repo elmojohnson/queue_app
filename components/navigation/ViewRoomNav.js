@@ -24,6 +24,7 @@ import { MdArrowBack, MdMusicNote } from "react-icons/md";
 // Components
 import MembersDrawer from "../drawers/MembersDrawer";
 import SearchTrackModal from "../modals/SearchTrackModal";
+import RoomInfoModal from "../modals/RoomInfoModal";
 
 const ViewRoomNav = () => {
   const roomContext = useContext(RoomContext);
@@ -31,8 +32,10 @@ const ViewRoomNav = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isOpen: modalIsOpen, onOpen: modalOnOpen, onClose: modalOnClose } = useDisclosure();
+  const { isOpen: infoModalIsOpen, onOpen: modalInfoOnOpen, onClose: modalInfoOnClose } = useDisclosure();
 
   const btnRef = useRef();
+  const btnRoomInfoRef = useRef();
 
   return (
     <>
@@ -52,6 +55,7 @@ const ViewRoomNav = () => {
           <Button
             size="sm"
             colorScheme="purple"
+            variant="outline"
             leftIcon={<Icon as={MdMusicNote} />}
             onClick={modalOnOpen}
           >
@@ -67,7 +71,7 @@ const ViewRoomNav = () => {
               <MenuItem ref={btnRef} onClick={onOpen}>
                 Members
               </MenuItem>
-              <MenuItem>Info</MenuItem>
+              <MenuItem ref={btnRoomInfoRef} onClick={modalInfoOnOpen}>Info</MenuItem>
             </MenuList>
           </Menu>
         </Flex>
@@ -75,6 +79,7 @@ const ViewRoomNav = () => {
 
       <MembersDrawer isOpen={isOpen} onClose={onClose} btnRef={btnRef} />
       <SearchTrackModal modalIsOpen={modalIsOpen} modalOnClose={modalOnClose} />
+      <RoomInfoModal isOpen={infoModalIsOpen} onClose={modalInfoOnClose} />
     </>
   );
 };

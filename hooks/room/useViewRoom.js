@@ -2,6 +2,7 @@ import { db } from "../../utils/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useToast } from "@chakra-ui/react";
 
 const useViewRoom = () => {
   const router = useRouter();
@@ -17,6 +18,7 @@ const useViewRoom = () => {
     created_at: "",
   });
   const [isLoading, setLoading] = useState(false);
+  const toast = useToast();
 
   const getRoom = async () => {
     setLoading(true);
@@ -38,6 +40,10 @@ const useViewRoom = () => {
         created_at: data.created_at,
       });
     } else {
+      toast({
+        title: "Room not available",
+        status: "warning",
+      });
       router.push("/");
     }
 

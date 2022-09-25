@@ -49,7 +49,7 @@ const SearchTrackModal = ({ modalIsOpen, modalOnClose }) => {
     <Modal isOpen={modalIsOpen} onClose={modalOnClose}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Search track</ModalHeader>
+        <ModalHeader>Request</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Formik
