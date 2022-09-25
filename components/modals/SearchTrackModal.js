@@ -34,7 +34,7 @@ const SearchTrackModal = ({ modalIsOpen, modalOnClose }) => {
     searchInput: Yup.string().required("This field is required!"),
   });
 
-  const searchTrack = async (search) => {
+  const SearchTrack = async (search) => {
     setLoading(true);
     const accessToken = await useAccessToken(refreshToken);
     spotify.setAccessToken(accessToken);
@@ -58,7 +58,7 @@ const SearchTrackModal = ({ modalIsOpen, modalOnClose }) => {
             }}
             validationSchema={SearchSchema}
             onSubmit={(values, { setSubmitting }) => {
-              searchTrack(values.searchInput);
+              SearchTrack(values.searchInput);
               setSubmitting(false);
             }}
           >

@@ -40,7 +40,7 @@ const CreateRoomModal = ({ isOpen, onClose }) => {
   });
 
   // Create room
-  const createRoom = (name) => {
+  const CreateRoom = (name) => {
     const newRoom = useCreateRoom(
       name,
       session?.user,
@@ -71,7 +71,7 @@ const CreateRoomModal = ({ isOpen, onClose }) => {
           name: "",
         }}
         onSubmit={(values, { setSubmitting }) => {
-          createRoom(values.name);
+          CreateRoom(values.name);
           setSubmitting(false);
         }}
       >

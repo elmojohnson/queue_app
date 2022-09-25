@@ -1,23 +1,22 @@
 import { db } from "../../utils/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 const useCredentials = () => {
+  const { data: session } = useSession();
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [providerId, setProviderId] = useState("");
 
   const getCredentials = async () => {
-    const session = await getSession();
-
     let response;
     let user;
 
     // Query User
     const userQuery = query(
       collection(db, "users"),
-      where("email", "==", session.user.email)
+      where("email", "==", session?.user?.email)
     );
     const userSnapshot = await getDocs(userQuery);
 
@@ -42,8 +41,8 @@ const useCredentials = () => {
   };
 
   useEffect(() => {
-    getCredentials();
-  }, [])
+    session?.user && getCredentials();
+  }, [session]);
 
   // Object response:
   // access_token
