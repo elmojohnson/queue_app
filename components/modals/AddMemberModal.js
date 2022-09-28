@@ -35,12 +35,12 @@ const AddMemberModal = ({ isOpen, onClose }) => {
 
   // Form validation
   const ValidationSchema = Yup.object().shape({
-    name: Yup.string().required("Please enter name"),
+    email: Yup.string().email().required("Please enter user's email"),
   });
 
   // Create room
-  const SearchUser = async (name) => {
-    const { user, account, isFound: isUserFound } = await useSearchUser(name);
+  const SearchUser = async (email) => {
+    const { user, account, isFound: isUserFound } = await useSearchUser(email);
     try {
       if (isUserFound) {
         setFound(true);
@@ -72,10 +72,10 @@ const AddMemberModal = ({ isOpen, onClose }) => {
       <Formik
         validationSchema={ValidationSchema}
         initialValues={{
-          name: "",
+          email: "",
         }}
         onSubmit={(values, { setSubmitting }) => {
-          SearchUser(values.name);
+          SearchUser(values.email);
           setSubmitting(false);
         }}
       >
@@ -88,22 +88,22 @@ const AddMemberModal = ({ isOpen, onClose }) => {
           handleSubmit,
         }) => (
           <ModalContent>
-            <ModalHeader>Search a user</ModalHeader>
+            <ModalHeader>Add a new member</ModalHeader>
             <ModalCloseButton disabled={isSubmitting} />
 
             <ModalBody pb={4}>
               <HStack alignItems="start" mb={4}>
-                <FormControl isRequired isInvalid={errors.name}>
+                <FormControl isRequired isInvalid={errors.email}>
                   <Input
-                    type="text"
-                    placeholder="Enter name"
-                    name="name"
-                    value={values.name}
+                    type="email"
+                    placeholder="Enter user's email"
+                    name="email"
+                    value={values.email}
                     onChange={handleChange}
                     disabled={isSubmitting}
                   />
-                  {errors.name && touched.name ? (
-                    <FormErrorMessage>{errors.name}</FormErrorMessage>
+                  {errors.email && touched.email ? (
+                    <FormErrorMessage>{errors.email}</FormErrorMessage>
                   ) : null}
                 </FormControl>
                 <Button

@@ -1,13 +1,13 @@
 import { db } from "../../utils/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
-export const useSearchUser = async (name) => {
+export const useSearchUser = async (email) => {
   let user;
   let account;
   let isFound = false;
 
   // Query User
-  const userQuery = query(collection(db, "users"), where("name", "==", name));
+  const userQuery = query(collection(db, "users"), where("email", "==", email));
   const userSnapshot = await getDocs(userQuery);
 
   let count = 0;
