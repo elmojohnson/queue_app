@@ -22,7 +22,7 @@ const Login = () => {
   return (
     <Flex h="100vh" justifyContent="center" alignItems="center">
       <VStack spacing={2}>
-        <Heading>App Name</Heading>
+        <Heading>Queuellab</Heading>
         <Text>Please login your Spotify Account</Text>
         <Button colorScheme="green" leftIcon={<FaSpotify />} onClick={loginUser}>
           Login with Spotify
