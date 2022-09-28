@@ -14,7 +14,7 @@ export const useCreateRoom = async (name, user, userId) => {
         id: userId,
         name: user.name,
         email: user.email,
-        image: user.image,
+        image: user.image || null,
       },
       members: [userId],
       created_at: Timestamp.now(),
@@ -24,7 +24,7 @@ export const useCreateRoom = async (name, user, userId) => {
       spotifyId: userId,
       name: user.name,
       email: user.email,
-      image: user.image,
+      image: user.image || null,
       isHost: true,
       joined_at: Timestamp.now(),
     });

@@ -31,7 +31,7 @@ const useAddMember = (user) => {
         spotifyId: user.spotifyId,
         name: user.name,
         email: user.email,
-        image: user.image,
+        image: user.image || null,
         isHost: false,
         joined_at: Timestamp.now(),
       });
