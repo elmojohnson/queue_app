@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { Box, Text, VStack, HStack, Spacer, Button } from "@chakra-ui/react";
 
-const RoomItem = ({ id, name, host }) => {
+const RoomItem = ({ id, name, host, members }) => {
   const router = useRouter();
 
   const viewRoom = () => {
@@ -14,7 +14,7 @@ const RoomItem = ({ id, name, host }) => {
           {name}
         </Text>
         <HStack>
-          <Text>{host.name}</Text>
+          <Text fontSize={12}>Hosted by {host.name}, {`${members.length} ${members.length === 1 ? "member" : "members"}`}</Text>
           <Spacer />
           <Button size="sm" onClick={viewRoom}>
             View

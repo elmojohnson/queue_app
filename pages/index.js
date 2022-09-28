@@ -51,6 +51,7 @@ const Home = () => {
                   id={room.id}
                   name={room.name}
                   host={room.host}
+                  members={room.members}
                 />
               );
             })}
