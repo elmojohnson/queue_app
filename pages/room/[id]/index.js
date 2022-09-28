@@ -10,7 +10,6 @@ import ViewRoomNav from "../../../components/navigation/ViewRoomNav";
 import useViewRoom from "../../../hooks/room/useViewRoom";
 import RoomContext from "../../../contexts/RoomContext";
 import useTracks from "../../../hooks/tracks/useTracks";
-import { useEffect } from "react";
 import TrackItem from "../../../components/items/TrackItem";
 
 const Room = () => {

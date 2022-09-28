@@ -37,6 +37,7 @@ const useViewRoom = () => {
           name: data.host.name,
         },
         members: data.members,
+        isAutoQueue: data.isAutoQueue,
         created_at: data.created_at,
       });
     } else {

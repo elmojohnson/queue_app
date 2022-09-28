@@ -19,6 +19,10 @@ import {
   Button,
   Icon,
   AvatarGroup,
+  ModalFooter,
+  Switch,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 import { MdDelete } from "react-icons/md";
 import useDeleteRoom from "../../hooks/room/useDeleteRoom";
@@ -36,7 +40,7 @@ const RoomInfoModal = ({ isOpen, onClose }) => {
         <ModalHeader>{room.name}</ModalHeader>
         <ModalCloseButton />
         <ModalBody pb={6}>
-          <VStack alignItems="start" spacing={2}>
+          <VStack alignItems="start" spacing={8}>
             <Stack>
               <Text fontSize={14} fontWeight="bold">
                 Members:
@@ -72,17 +76,33 @@ const RoomInfoModal = ({ isOpen, onClose }) => {
               </Box>
             </Stack>
             {session?.user?.email === room.host.email && (
-              <Button
-                alignSelf="end"
-                colorScheme="red"
-                leftIcon={<Icon as={MdDelete} />}
-                isLoading={isDeleting}
-                loadingText="Deleting"
-                disabled={isDeleting}
-                onClick={deleteRoom}
-              >
-                Delete Room
-              </Button>
+              <Stack w="full">
+                <Text fontSize={14} fontWeight="bold">
+                  Settings:
+                </Text>
+                <VStack alignItems="start" spacing={4}>
+                  <FormControl
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <FormLabel>Auto Queue</FormLabel>
+                    <Switch isChecked={room.isAutoQueue} />
+                  </FormControl>
+                  <Button
+                    w="full"
+                    size="sm"
+                    colorScheme="blackAlpha"
+                    leftIcon={<Icon as={MdDelete} />}
+                    isLoading={isDeleting}
+                    loadingText="Deleting"
+                    disabled={isDeleting}
+                    onClick={deleteRoom}
+                  >
+                    Delete Room
+                  </Button>
+                </VStack>
+              </Stack>
             )}
           </VStack>
         </ModalBody>

@@ -17,6 +17,7 @@ export const useCreateRoom = async (name, user, userId) => {
         image: user.image || null,
       },
       members: [userId],
+      isAutoQueue: false,
       created_at: Timestamp.now(),
     });
 

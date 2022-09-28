@@ -9,6 +9,7 @@ const RoomContext = createContext({
     name: "",
   },
   members: [],
+  isAutoQueue: false,
   created_at: "",
 });
 
